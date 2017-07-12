@@ -1,6 +1,6 @@
-name := "sparxer"
+import Settings._
+import Dependencies._
 
-version := "1.0"
-
-scalaVersion := "2.12.1"
-        
+lazy val sparxer = project.in(file("."))
+  .settings(commonSettings)
+  .settings(libraryDependencies ++= scalaTestDependencies)
