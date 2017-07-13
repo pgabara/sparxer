@@ -13,7 +13,7 @@ script:
   - sbt ++$TRAVIS_SCALA_VERSION clean coverage test
 
 after_success:
-  - sbt ++$TRAVIS_SCALA_VERSION aggregateCoverage coverageReport
+  - sbt ++$TRAVIS_SCALA_VERSION coverageAggregate coverageReport
   - codecov
 
 before_cache:
