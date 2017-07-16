@@ -1,0 +1,27 @@
+language: scala
+
+jdk:
+  - oraclejdk8
+
+scala:
+  - 2.12.2
+
+before_install:
+  - pip install --user codecov
+
+script:
+  - sbt ++$TRAVIS_SCALA_VERSION clean coverage test
+
+after_success:
+  - sbt ++$TRAVIS_SCALA_VERSION coverageAggregate coverageReport
+  - codecov
+
+before_cache:
+  - find $HOME/.sbt -name "*.lock" -type f -delete
+  - find $HOME/.ivy2/cache -name "ivydata-*.properties" -type f -delete
+
+cache:
+  directories:
+    - $HOME/.ivy2/cache
+    - $HOME/.coursier/cache
+    - $HOME/.sbt
