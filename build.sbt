@@ -3,4 +3,14 @@ import Dependencies._
 
 lazy val sparxer = project.in(file("."))
   .settings(commonSettings)
-  .settings(libraryDependencies ++= scalaTestDependencies)
+  .settings(
+    libraryDependencies
+      ++= catsDependencies
+      ++ monixDependencies
+      ++ akkaActorDependencies
+      ++ akkaStreamDependencies
+      ++ akkaHttpDependencies
+      ++ sparkDependencies
+      ++ loggingDependencies
+      ++ scalaTestDependencies
+  )
