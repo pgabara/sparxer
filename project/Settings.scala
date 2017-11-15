@@ -2,16 +2,18 @@ import sbt._
 import sbt.Keys._
 import scoverage.ScoverageKeys._
 
+import Dependencies._
+
 object Settings {
 
   val commonSettings = Seq(
     name          := "sparxer",
     organization  := "com.github.bhop",
     version       := "0.0.1",
-    scalaVersion  := "2.12.2",
+    scalaVersion  := "2.11.11",
 
 
-    coverageMinimum       := 80,
+    coverageMinimum       := 70,
     coverageFailOnMinimum := true,
 
     scalacOptions ++= Seq(
@@ -32,6 +34,8 @@ object Settings {
     resolvers ++= Seq(
       Resolver sonatypeRepo "public",
       Resolver typesafeRepo "releases"
-    )
+    ),
+
+    libraryDependencies ++= typesafeConfig ++ logging ++ scalatest
   )
 }
