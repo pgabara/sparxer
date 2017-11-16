@@ -13,8 +13,8 @@ coverage:
     changes: no
 
 ignore:
-  - "com/github/bhop/sparxer/engine/Engine.scala"
-  - "com/github/bhop/sparxer/http/HttpServer.scala"
+  - "src/main/scala/com/github/bhop/sparxer/engine/Engine.scala"
+  - "src/main/scala/com/github/bhop/sparxer/http/HttpServer.scala"
 
 parsers:
   gcov:
