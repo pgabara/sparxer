@@ -12,10 +12,6 @@ coverage:
     patch: no
     changes: no
 
-ignore:
-  - "src/main/scala/com/github/bhop/sparxer/engine/Engine.scala"
-  - "src/main/scala/com/github/bhop/sparxer/http/HttpServer.scala"
-
 parsers:
   gcov:
     branch_detection:
