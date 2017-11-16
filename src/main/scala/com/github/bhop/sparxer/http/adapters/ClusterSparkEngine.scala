@@ -30,7 +30,7 @@ object ClusterSparkEngine extends StrictLogging {
 
   sealed trait Command
   case class Submit(config: JobConfig, replayTo: ActorRef[Event]) extends Command
-  private case class UpdateInstances(listing: Listing[SparkEngine.Command]) extends Command
+  case class UpdateInstances(listing: Listing[SparkEngine.Command]) extends Command
 
   sealed trait Event
   case object Submitted extends Event

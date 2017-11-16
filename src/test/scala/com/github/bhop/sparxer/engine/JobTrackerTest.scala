@@ -1,14 +1,14 @@
 package com.github.bhop.sparxer.engine
 
 import akka.typed.testkit.{EffectfulActorContext, Inbox}
+import com.github.bhop.sparxer.AkkaBehaviourTest
 import com.github.bhop.sparxer.adapter.domain.{JobState, JobSubscription}
 import com.github.bhop.sparxer.engine.JobTracker.{Command, Event, JobStateUpdated}
 import monix.reactive.Observable
-import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.{Matchers, WordSpec}
 import monix.execution.Scheduler.Implicits.global
 
-class JobTrackerTest extends WordSpec with Matchers with ScalaFutures {
+class JobTrackerTest extends WordSpec with Matchers with AkkaBehaviourTest {
 
   "A Job Tracker" should {
 
