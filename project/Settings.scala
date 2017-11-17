@@ -10,7 +10,7 @@ object Settings {
     name          := "sparxer",
     organization  := "com.github.bhop",
     version       := "0.0.1",
-    scalaVersion  := "2.11.11",
+    scalaVersion  := "2.11.12",
 
 
     coverageMinimum       := 70,
