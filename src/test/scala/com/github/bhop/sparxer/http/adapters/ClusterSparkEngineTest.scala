@@ -6,12 +6,13 @@ import akka.typed.receptionist.Receptionist.Listing
 import akka.typed.scaladsl.Actor
 import akka.typed.testkit.{EffectfulActorContext, Inbox}
 import akka.util.Timeout
-import com.github.bhop.sparxer.AkkaBehaviourTest
 import org.scalatest.{Matchers, WordSpec}
+import monix.execution.Scheduler
+
+import com.github.bhop.sparxer.AkkaBehaviourTest
+import com.github.bhop.sparxer.http.adapters.ClusterSparkEngine._
 import com.github.bhop.sparxer.adapter.domain.{JobConfig, SparkApp}
 import com.github.bhop.sparxer.engine.SparkEngine
-import com.github.bhop.sparxer.http.adapters.ClusterSparkEngine._
-import monix.execution.Scheduler
 
 import scala.concurrent.duration._
 
@@ -74,7 +75,7 @@ class ClusterSparkEngineTest extends WordSpec with Matchers with AkkaBehaviourTe
 
     "provide exception if spark engine rises an error" in withActorSystem { system =>
       implicit val scheduler: actor.Scheduler = system.scheduler
-      val engineRef = system.systemActorOf(failureEngine, "engine").futureValue
+      val engineRef = system.systemActorOf(failingEngine, "engine").futureValue
       val submission = new ClusterSparkEngine(engineRef).submit(JobConfig(SparkApp("test", "test.jar", "Test")))
       intercept[RuntimeException] {
         submission.runAsync.futureValue
@@ -92,7 +93,7 @@ class ClusterSparkEngineTest extends WordSpec with Matchers with AkkaBehaviourTe
       }
     }
 
-  private def failureEngine: Behavior[Command] =
+  private def failingEngine: Behavior[Command] =
     Actor.immutable[Command] { (_, message) =>
       message match {
         case Submit(_, replayTo) =>

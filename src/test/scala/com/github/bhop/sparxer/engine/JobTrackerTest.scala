@@ -1,18 +1,20 @@
 package com.github.bhop.sparxer.engine
 
 import akka.typed.testkit.{EffectfulActorContext, Inbox}
+import monix.reactive.Observable
+import org.scalatest.{Matchers, WordSpec}
+
 import com.github.bhop.sparxer.AkkaBehaviourTest
 import com.github.bhop.sparxer.adapter.domain.{JobState, JobSubscription}
 import com.github.bhop.sparxer.engine.JobTracker.{Command, Event, JobStateUpdated}
-import monix.reactive.Observable
-import org.scalatest.{Matchers, WordSpec}
+
 import monix.execution.Scheduler.Implicits.global
 
 class JobTrackerTest extends WordSpec with Matchers with AkkaBehaviourTest {
 
   "A Job Tracker" should {
 
-    "notify one recipient once job state is changed" in {
+    "notify one recipient once job state is updated" in {
       val inbox = Inbox[Event]("job-multi-updates")
       val tracker = JobTracker(subscription("1", List("RUNNING", "FINISHED")), Set(inbox.ref))
       val context = new EffectfulActorContext[Command]("job-multi-updates", tracker, 100, null)
@@ -51,6 +53,6 @@ class JobTrackerTest extends WordSpec with Matchers with AkkaBehaviourTest {
     }
   }
 
-  def subscription(id: String, states: Seq[String]): JobSubscription =
+  private def subscription(id: String, states: Seq[String]): JobSubscription =
     JobSubscription(id, Observable.fromIterable(states.map(JobState(None, _))))
 }

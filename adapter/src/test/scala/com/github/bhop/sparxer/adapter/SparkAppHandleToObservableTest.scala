@@ -1,27 +1,26 @@
 package com.github.bhop.sparxer.adapter
 
-import com.github.bhop.sparxer.adapter.domain.JobState
-import monix.execution.Scheduler
 import org.apache.spark.launcher.SparkAppHandle
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.{Matchers, WordSpec}
+import monix.execution.Scheduler
+
+import com.github.bhop.sparxer.adapter.domain.JobState
 
 class SparkAppHandleToObservableTest extends WordSpec with Matchers with ScalaFutures {
 
   implicit val io: Scheduler = Scheduler.io()
 
-  "A SparkAppHandle to Observable converter" should {
+  "A SparkAppHandle to monix Observable converter" should {
 
-    "convert SparkAppHandle instance into monix Observable" in {
-      val handler = new StubSparkAppHandle()
-      val converter = new implicits.SparkAppHandleToObservable(handler)
+    "convert a SparkAppHandle instance into a monix Observable instance" in {
+      val converter = new implicits.SparkAppHandleToObservable(new StubSparkAppHandle())
       val states = converter.toObservable.map(_.state).foldLeftL(List.empty[String]) { (acc, state) => state :: acc }
       states.runAsync.futureValue should be(List("FINISHED", "RUNNING", "SUBMITTED", "CONNECTED"))
     }
 
     "handle SparkAppHandle internal exception" in {
-      val handler = new StubSparkAppHandle(fail = true)
-      val converter = new implicits.SparkAppHandleToObservable(handler)
+      val converter = new implicits.SparkAppHandleToObservable(new StubSparkAppHandle(fail = true))
       val states = converter.toObservable.onErrorHandle(_ => JobState(None, "Error!"))
       states.runAsyncGetFirst.futureValue should be(Some(JobState(None, "Error!")))
     }

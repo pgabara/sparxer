@@ -4,10 +4,11 @@ import akka.Done
 import akka.http.scaladsl.testkit.ScalatestRouteTest
 import monix.eval.Task
 import org.scalatest.{Matchers, WordSpec}
+import monix.execution.Scheduler
+
 import com.github.bhop.sparxer.adapter.domain
 import com.github.bhop.sparxer.adapter.domain.{JobConfig, SparkApp}
 import com.github.bhop.sparxer.http.adapters.SparkEngineAdapter
-import monix.execution.Scheduler
 
 class RoutingTest extends WordSpec with Matchers with ScalatestRouteTest with Routing {
 
@@ -32,7 +33,6 @@ class RoutingTest extends WordSpec with Matchers with ScalatestRouteTest with Ro
         }
       }
     }
-
   }
 
   private def successEngine = new SparkEngineAdapter {

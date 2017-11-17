@@ -6,8 +6,10 @@ import com.github.bhop.sparxer.AkkaBehaviourTest
 import monix.eval.Task
 import monix.reactive.Observable
 import org.scalatest.{Matchers, WordSpec}
+
 import com.github.bhop.sparxer.engine.SparkEngine.{Command, Submit}
 import com.github.bhop.sparxer.adapter.domain.{JobConfig, JobState, JobSubscription, SparkApp}
+
 import monix.execution.Scheduler.Implicits.global
 
 class SparkEngineTest extends WordSpec with Matchers with AkkaBehaviourTest {
@@ -30,13 +32,10 @@ class SparkEngineTest extends WordSpec with Matchers with AkkaBehaviourTest {
     }
   }
 
-  def stubJobConfig: JobConfig =
-    JobConfig(
-      app = SparkApp("test", "test.jar", "Test"),
-      verbose = false
-    )
+  private def stubJobConfig: JobConfig =
+    JobConfig(app = SparkApp("test", "test.jar", "Test"), verbose = false)
 
-  def stubSubmit(config: JobConfig): Task[JobSubscription] =
+  private def stubSubmit(config: JobConfig): Task[JobSubscription] =
     Task.now(JobSubscription(
       subscriptionId = "1",
       states = Observable.fromIterable(List(JobState(None, "RUNNING"), JobState(None, "FINISHED")))
