@@ -6,8 +6,10 @@ import Dependencies._
 
 object Settings {
 
+  val ProjectName = "sparxer"
+
   val commonSettings = Seq(
-    name          := "sparxer",
+    name          := ProjectName,
     organization  := "com.github.bhop",
     version       := "0.0.1",
     scalaVersion  := "2.11.12",
