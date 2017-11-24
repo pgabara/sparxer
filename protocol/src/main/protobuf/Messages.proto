@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package com.gihutb.bhop.sparxer.protocol;
+
+message SparkAppProto {
+    string name = 1;
+    string jar  = 2;
+    string main = 3;
+    repeated string args = 4;
+}
+
+message JobConfigProto {
+    SparkAppProto app = 1;
+    bool verbose = 2;
+}
+
+message SubmitJobProto {
+    JobConfigProto config = 1;
+    string replyTo   = 2;
+}
+
+message JobSubmittedProto {
+    string id = 1;
+}

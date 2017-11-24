@@ -8,7 +8,7 @@ import akka.util.Timeout
 import monix.execution.Scheduler
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpec}
-import com.github.bhop.sparxer.http.SparkEngineProxy.{Job, SparkEngineError}
+import com.github.bhop.sparxer.http.SparkEngineProxy.Job
 import com.github.bhop.sparxer.protocol.engine.SparkEngine.{JobSubmitted, SparkEngineCommand, SubmitJob}
 import com.github.bhop.sparxer.protocol.spark.Spark.{JobConfig, SparkApp}
 
@@ -33,20 +33,6 @@ class ClusterAwareSparkEngineProxySpec extends WordSpec with Matchers with Scala
       message.replyTo ! JobSubmitted("1")
 
       response.futureValue should be(Job("1"))
-    }
-
-    "return an error if response different than expected" in {
-      val router = Inbox[SparkEngineCommand]("router-2")
-      val proxy = ClusterAwareSparkEngineProxy(router.ref)
-
-      val response = proxy.submit(stubJob).runAsync
-
-      val message = router.receiveMsg().asInstanceOf[SubmitJob]
-      message.replyTo ! None.orNull
-
-      whenReady(response.failed) { ex =>
-        ex shouldBe a [SparkEngineError]
-      }
     }
 
     "return timeout error if no active spark engines" in {
