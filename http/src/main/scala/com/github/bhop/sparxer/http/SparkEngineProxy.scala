@@ -27,7 +27,6 @@ class ClusterAwareSparkEngineProxy(engine: ActorRef[SparkEngineCommand])
   override def submit(job: JobConfig): Task[Job] =
     Task.fromFuture[SparkEngineEvent](engine ? (SubmitJob(job, _))).flatMap {
       case JobSubmitted(id) => Task.now(Job(id))
-      case _ => Task.raiseError(SparkEngineError("Could not get job details"))
     }
 }
 
