@@ -8,7 +8,6 @@ object JobTracker {
   case class UpdateJobState(state: JobState) extends JobTrackerCommand
   case object TerminateJobTracker extends JobTrackerCommand
 
-
   sealed trait JobTrackerEvent
   case class JobStateUpdated(id: String, state: JobState) extends JobTrackerEvent
 }

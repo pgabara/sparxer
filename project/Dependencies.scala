@@ -2,7 +2,7 @@ import sbt._
 
 object Dependencies {
 
-  val akkaVersion         = "2.5.6"
+  val akkaVersion         = "2.5.7"
   val akkaHttpVersion     = "10.0.10"
   val sparkVersion        = "2.2.0"
   val monixVersion        = "2.3.0"
