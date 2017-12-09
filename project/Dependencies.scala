@@ -7,6 +7,8 @@ object Dependencies {
   val sparkVersion        = "2.2.0"
   val monixVersion        = "2.3.0"
   val configVersion       = "1.3.1"
+  val catsVersion         = "1.0.0-RC1"
+  val scoptVersion        = "3.7.0"
   val scalatestVersion    = "3.0.1"
   val scalacticVersion    = "3.0.1"
 
@@ -38,6 +40,14 @@ object Dependencies {
 
   lazy val monix = Seq(
     "io.monix" %% "monix" % monixVersion
+  )
+
+  lazy val cats = Seq(
+    "org.typelevel" %% "cats-core" % catsVersion
+  )
+
+  lazy val scopt = Seq(
+    "com.github.scopt" %% "scopt" % scoptVersion
   )
 
   lazy val scalatest = Seq(

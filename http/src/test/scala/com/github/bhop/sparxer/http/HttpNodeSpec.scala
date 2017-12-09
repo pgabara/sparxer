@@ -12,13 +12,5 @@ class HttpNodeSpec extends WordSpec with Matchers {
     "read http config" in {
       httpConfig(ConfigFactory.load()) should be(HttpConfig(host = "localhost", port = 9000))
     }
-
-    "set default node port" in {
-      nodeConfig(Array.empty).getString("akka.remote.artery.canonical.port") should be ("0")
-    }
-
-    "set custom node port" in {
-      nodeConfig(Array("2551")).getString("akka.remote.artery.canonical.port") should be("2551")
-    }
   }
 }
