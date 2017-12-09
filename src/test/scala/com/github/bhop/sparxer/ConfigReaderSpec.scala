@@ -8,9 +8,11 @@ class ConfigReaderSpec extends WordSpec with Matchers {
   "A Config Reader" should {
 
     "propagate node port number and node role" in {
-      val config = ConfigReader.nodeConfig(AppConfig(Engine, 2551))
-      config.getStringList("akka.actor.cluster.roles").asScala.head should be("engine")
-      config.getLong("akka.remote.artery.canonical.port") should be(2551)
+      val engineConfig = ConfigReader.nodeConfig(AppConfig(Engine, 2551))
+      engineConfig.getStringList("akka.actor.cluster.roles").asScala.head should be("engine")
+      engineConfig.getLong("akka.remote.artery.canonical.port") should be(2551)
+      val httpConfig = ConfigReader.nodeConfig(AppConfig(Http, 2551))
+      httpConfig.getStringList("akka.actor.cluster.roles").asScala.head should be("http")
     }
 
     "propagate empty cluster roles if node type is unspecified and default node port number" in {
