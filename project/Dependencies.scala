@@ -3,11 +3,11 @@ import sbt._
 object Dependencies {
 
   val akkaVersion         = "2.5.7"
-  val akkaHttpVersion     = "10.0.10"
+  val akkaHttpVersion     = "10.0.11"
   val sparkVersion        = "2.2.0"
   val monixVersion        = "2.3.0"
   val configVersion       = "1.3.1"
-  val catsVersion         = "1.0.0-RC1"
+  val catsVersion         = "1.0.1"
   val scoptVersion        = "3.7.0"
   val scalatestVersion    = "3.0.1"
   val scalacticVersion    = "3.0.1"

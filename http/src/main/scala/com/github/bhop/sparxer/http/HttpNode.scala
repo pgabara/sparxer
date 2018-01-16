@@ -24,7 +24,7 @@ object HttpNode extends Routing with LazyLogging {
     implicit val io: Scheduler = Scheduler.io()
 
     val sparkEngineRouter = system.spawn(ClusterRouter(SparkEngine.SparkEngineReceptionistKey), "SparkEngineRouter")
-    val sparkEngine = ClusterAwareSparkEngineProxy(sparkEngineRouter)
+    val sparkEngine = proxy.ClusterAwareSparkEngineProxy(sparkEngineRouter)
 
     val http = httpConfig(config)
     val binding = Http().bindAndHandle(routes(sparkEngine), http.host, http.port)

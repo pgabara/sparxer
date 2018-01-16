@@ -1,22 +1,11 @@
-package com.github.bhop.sparxer.http
+package com.github.bhop.sparxer.http.proxy
 
 import akka.actor.Scheduler
 import akka.typed.ActorRef
 import akka.util.Timeout
-import monix.eval.Task
-
 import com.github.bhop.sparxer.protocol.engine.SparkEngine._
 import com.github.bhop.sparxer.protocol.spark.Spark.JobConfig
-
-trait SparkEngineProxy {
-  import SparkEngineProxy._
-  def submit(job: JobConfig): Task[Job]
-}
-
-object SparkEngineProxy {
-  case class Job(id: String)
-  case class SparkEngineError(message: String) extends RuntimeException
-}
+import monix.eval.Task
 
 class ClusterAwareSparkEngineProxy(engine: ActorRef[SparkEngineCommand])
                                   (implicit scheduler: Scheduler, timeout: Timeout) extends SparkEngineProxy {
@@ -35,3 +24,4 @@ object ClusterAwareSparkEngineProxy {
            (implicit scheduler: Scheduler, timeout: Timeout): ClusterAwareSparkEngineProxy =
     new ClusterAwareSparkEngineProxy(router)
 }
+

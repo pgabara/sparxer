@@ -3,7 +3,7 @@ package com.github.bhop.sparxer.http
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import spray.json.{DefaultJsonProtocol, RootJsonFormat}
 import com.github.bhop.sparxer.http.JsonSupport.ErrorResponse
-import com.github.bhop.sparxer.http.SparkEngineProxy.Job
+import com.github.bhop.sparxer.http.proxy.SparkEngineProxy.Job
 import com.github.bhop.sparxer.protocol.spark.Spark.{JobConfig, SparkApp}
 
 trait JsonSupport extends SprayJsonSupport with DefaultJsonProtocol {

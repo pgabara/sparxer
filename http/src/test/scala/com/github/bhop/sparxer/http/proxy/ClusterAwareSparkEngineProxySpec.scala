@@ -1,4 +1,4 @@
-package com.github.bhop.sparxer.http
+package com.github.bhop.sparxer.http.proxy
 
 import akka.actor
 import akka.typed.ActorSystem
@@ -8,7 +8,8 @@ import akka.util.Timeout
 import monix.execution.Scheduler
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpec}
-import com.github.bhop.sparxer.http.SparkEngineProxy.Job
+
+import com.github.bhop.sparxer.http.proxy.SparkEngineProxy.Job
 import com.github.bhop.sparxer.protocol.engine.SparkEngine.{JobSubmitted, SparkEngineCommand, SubmitJob}
 import com.github.bhop.sparxer.protocol.spark.Spark.{JobConfig, SparkApp}
 
