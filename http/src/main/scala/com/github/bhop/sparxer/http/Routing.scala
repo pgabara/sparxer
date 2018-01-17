@@ -11,7 +11,7 @@ import scala.util.control.NonFatal
 
 trait Routing extends JsonSupport {
 
-  def routes(engine: SparkEngineProxy)(implicit io: Scheduler): Route =
+  def routes(engine: proxy.SparkEngineProxy)(implicit io: Scheduler): Route =
     pathPrefix("api" / "jobs") {
       path("submit") {
         post {

@@ -5,7 +5,7 @@ import monix.eval.Task
 import monix.execution.Scheduler
 import org.scalatest.{Matchers, WordSpec}
 import com.github.bhop.sparxer.http.JsonSupport.ErrorResponse
-import com.github.bhop.sparxer.http.SparkEngineProxy.Job
+import com.github.bhop.sparxer.http.proxy.SparkEngineProxy.Job
 import com.github.bhop.sparxer.protocol.spark.Spark.{JobConfig, SparkApp}
 
 class RoutingSpec extends WordSpec with Matchers with ScalatestRouteTest with Routing {
@@ -32,11 +32,11 @@ class RoutingSpec extends WordSpec with Matchers with ScalatestRouteTest with Ro
     }
   }
 
-  private def successEngine = new SparkEngineProxy {
+  private def successEngine = new proxy.SparkEngineProxy {
     override def submit(job: JobConfig): Task[Job] = Task.now(Job(id = "1"))
   }
 
-  private def failingEngine(error: Throwable) = new SparkEngineProxy {
+  private def failingEngine(error: Throwable) = new proxy.SparkEngineProxy {
     override def submit(job: JobConfig): Task[Job] = Task.raiseError(error)
   }
 }
