@@ -9,6 +9,11 @@ scala:
 before_install:
   - pip install --user codecov
 
+addons:
+  apt:
+    packages:
+      - axel
+
 install:
   - "[ -f spark ] || mkdir spark && cd spark && axel http://www-us.apache.org/dist/spark/spark-2.2.1/spark-2.2.1-bin-hadoop2.7.tgz && cd .."
   - "tar -xf ./spark/spark-2.2.1-bin-hadoop2.7.tgz"
