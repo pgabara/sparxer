@@ -8,6 +8,9 @@ class SparkSubmitSpec extends WordSpec with Matchers with ScalaFutures with Spar
 
   import monix.execution.Scheduler.Implicits.global
 
+  println(testSparkInstance)
+  println(testJobConfig)
+
   implicit override def patienceConfig: PatienceConfig =
     PatienceConfig(timeout = Span(30, Seconds), interval = Span(20, Millis))
 
