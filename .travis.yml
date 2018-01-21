@@ -9,8 +9,13 @@ scala:
 before_install:
   - pip install --user codecov
 
+install:
+  - "[ -f spark ] || mkdir spark && cd spark && axel http://www-us.apache.org/dist/spark/spark-2.2.1/spark-2.2.1-bin-hadoop2.7.tgz && cd .."
+  - "tar -xf ./spark/spark-2.2.1-bin-hadoop2.7.tgz"
+  - "export SPARK_HOME=`pwd`/spark-2.2.1-bin-hadoop2.7"
+
 script:
-  - sbt ++$TRAVIS_SCALA_VERSION clean coverage test
+  - sbt ++$TRAVIS_SCALA_VERSION clean coverage test it:test
 
 after_success:
   - sbt ++$TRAVIS_SCALA_VERSION coverageAggregate coverageReport
