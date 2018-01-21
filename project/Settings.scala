@@ -38,6 +38,6 @@ object Settings {
       Resolver typesafeRepo "releases"
     ),
 
-    libraryDependencies ++= cats ++ akka ++ typesafeConfig ++ logging ++ scalatest
+    libraryDependencies ++= cats ++ akka ++ typesafeConfig ++ logging
   )
 }

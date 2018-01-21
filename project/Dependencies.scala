@@ -50,13 +50,23 @@ object Dependencies {
     "com.github.scopt" %% "scopt" % scoptVersion
   )
 
-  lazy val scalatest = Seq(
-    "org.scalactic" %% "scalactic" % scalacticVersion % "test",
-    "org.scalatest" %% "scalatest" % scalatestVersion % "test"
+  lazy val tests = Seq(
+    "org.scalactic" %% "scalactic" % scalacticVersion,
+    "org.scalatest" %% "scalatest" % scalatestVersion
   )
 
   lazy val logging = Seq(
     "ch.qos.logback"              % "logback-classic" % "1.2.3",
     "com.typesafe.scala-logging" %% "scala-logging"   % "3.7.2"
   )
+
+  object Implicits {
+
+    implicit class DepSeqOps(deps: Seq[ModuleID]) {
+
+      def it: Seq[ModuleID] =  deps.map(_ % "it,test")
+
+      def test: Seq[ModuleID] = deps.map(_ % "test")
+    }
+  }
 }
