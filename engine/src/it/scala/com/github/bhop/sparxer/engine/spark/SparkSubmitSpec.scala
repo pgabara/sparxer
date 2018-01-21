@@ -1,5 +1,8 @@
 package com.github.bhop.sparxer.engine.spark
 
+import java.io.File
+import java.nio.file.Files
+
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.time.{Millis, Seconds, Span}
 import org.scalatest.{Matchers, WordSpec}
@@ -10,6 +13,7 @@ class SparkSubmitSpec extends WordSpec with Matchers with ScalaFutures with Spar
 
   println(testSparkInstance)
   println(testJobConfig)
+  println("Exist: " + Files.exists(new File(testJobConfig.app.jar).toPath))
 
   implicit override def patienceConfig: PatienceConfig =
     PatienceConfig(timeout = Span(30, Seconds), interval = Span(20, Millis))
