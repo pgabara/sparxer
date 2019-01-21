@@ -1,0 +1,67 @@
+apiVersion: "extensions/v1beta1"
+kind: Deployment
+metadata:
+  name: "sparxer"
+  labels:
+    appName: "sparxer"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      appName: "sparxer"
+  template:
+    metadata:
+      labels:
+        appName: "sparxer"
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: "sparxer"
+          image: "sparxer:0.2.0"
+          env:
+            - name: SPARXER_HTTP_PORT
+              value: "9000"
+            - name: SPARXER_AUTH_SECRET
+              value: "secret"
+            - name: SPARXER_DB_NAME
+              value: "sparxer_dev"
+            - name: SPARXER_DB_USER
+              value: "sparxer_dev"
+            - name: SPARXER_DB_PASSWORD
+              value: ""
+          imagePullPolicy: IfNotPresent
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: api
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: api
+          ports:
+            - containerPort: 9000
+              name: api
+          volumeMounts:
+            - name: spark
+              mountPath: /opt/spark
+      volumes:
+        - name: spark
+          hostPath:
+            path: /usr/local/spark # path to spark home (require to run jobs locally)
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    appName: "sparxer"
+  name: "sparxer-api"
+spec:
+  type: NodePort
+  ports:
+    - name: http
+      port: 9000
+      protocol: TCP
+      targetPort: 9000
+  selector:
+    appName: "sparxer"
+---

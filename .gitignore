@@ -1,6 +1,10 @@
 .idea/
+.bloop/
+.metals/
 
 target/
 project/target/
 
 *.log
+
+.DS_Store

@@ -1,0 +1,71 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: postgres
+spec:
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: "sparxer_dev"
+            - name: POSTGRES_PASSWORD
+              value: ""
+          volumeMounts:
+            - name: db-init
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: db-init
+          configMap: 
+            name: postgres-init
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-init
+data:
+  schema.sql: |
+    CREATE EXTENSION hstore;
+
+    CREATE TABLE users (
+      email     varchar(255) PRIMARY KEY,
+      password  text         NOT NULL
+    );
+
+    CREATE TABLE jobs (
+      id          bigint       PRIMARY KEY,
+      main_class  varchar(255) NOT NULL,
+      master      varchar(255) NOT NULL,
+      deploy_mode varchar(8)   NOT NULL,
+      jar         varchar(255) NOT NULL,
+      owner       varchar(255) NOT NULL REFERENCES users(email),
+      spark_conf  hstore,
+      args        text[],
+      envs        hstore
+    );
+
+    CREATE TABLE statuses (
+      id     serial    PRIMARY KEY,
+      job_id bigint    NOT NULL REFERENCES jobs(id),
+      state  text      NOT NULL,
+      time   timestamp NOT NULL
+    );
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+spec:
+  type: NodePort
+  ports:
+  - port: 5432
+    targetPort: 5432
+  selector:
+    app: postgres
