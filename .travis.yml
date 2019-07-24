@@ -1,37 +1,11 @@
 language: scala
 
-jdk:
-  - oraclejdk8
-
 scala:
-  - 2.11.12
+  - 2.12.8
 
-before_install:
-  - pip install --user codecov
-
-addons:
-  apt:
-    packages:
-      - axel
-
-install:
-  - "[ -f spark ] || mkdir spark && cd spark && axel http://www-us.apache.org/dist/spark/spark-2.2.1/spark-2.2.1-bin-hadoop2.7.tgz && cd .."
-  - "tar -xf ./spark/spark-2.2.1-bin-hadoop2.7.tgz"
-  - "export SPARK_HOME=`pwd`/spark-2.2.1-bin-hadoop2.7"
-
-script:
-  - sbt ++$TRAVIS_SCALA_VERSION clean coverage test it:test
-
-after_success:
-  - sbt ++$TRAVIS_SCALA_VERSION coverageAggregate coverageReport
-  - codecov
-
-before_cache:
-  - find $HOME/.sbt -name "*.lock" -type f -delete
-  - find $HOME/.ivy2/cache -name "ivydata-*.properties" -type f -delete
-
-cache:
-  directories:
-    - $HOME/.ivy2/cache
-    - $HOME/.coursier/cache
-    - $HOME/.sbt
+jobs:
+  include:
+    - stage: lint
+      script: sbt check 
+    - stage: test
+      script: sbt test
